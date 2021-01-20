@@ -1,0 +1,116 @@
+version: '3.7'
+
+networks:
+  patroni:
+    driver: overlay
+    attachable: true
+
+services:
+  etcd1:
+#    image: docker.io/bitnami/etcd:3-debian-10
+    image: 'bitnami/etcd:latest'
+    hostname: etcd1
+    ports:
+      - target: 2379
+        published: 2379
+        protocol: tcp
+        mode: host
+      - target: 2380
+        published: 2380
+        protocol: tcp
+        mode: host
+    environment:
+      - ALLOW_NONE_AUTHENTICATION=yes
+      - ETCD_NAME=etcd1
+      - ETCD_INITIAL_ADVERTISE_PEER_URLS=http://etcd1:2380
+      - ETCD_LISTEN_PEER_URLS=http://0.0.0.0:2380
+      - ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
+      - ETCD_ADVERTISE_CLIENT_URLS=http://etcd1:2379
+      - ETCD_INITIAL_CLUSTER_TOKEN=etcd-cluster
+      - ETCD_INITIAL_CLUSTER=etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380
+      - ETCD_INITIAL_CLUSTER_STATE=new
+      - ETCD_ENABLE_V2=true
+    networks:
+      - patroni
+    deploy:
+      replicas: 1
+      endpoint_mode: dnsrr
+      placement:
+        constraints:
+          - node.hostname == docker-desktop
+      restart_policy:
+        condition: any
+
+  etcd2:
+#    image: docker.io/bitnami/etcd:3-debian-10
+    image: 'bitnami/etcd:latest'
+    hostname: etcd2
+    ports:
+#      - 2381:2379
+#      - 2382:2380
+      - target: 2379
+        published: 2381
+        protocol: tcp
+        mode: host
+      - target: 2380
+        published: 2382
+        protocol: tcp
+        mode: host
+    environment:
+      - ALLOW_NONE_AUTHENTICATION=yes
+      - ETCD_NAME=etcd2
+      - ETCD_INITIAL_ADVERTISE_PEER_URLS=http://etcd2:2380
+      - ETCD_LISTEN_PEER_URLS=http://0.0.0.0:2380
+      - ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
+      - ETCD_ADVERTISE_CLIENT_URLS=http://etcd2:2379
+      - ETCD_INITIAL_CLUSTER_TOKEN=etcd-cluster
+      - ETCD_INITIAL_CLUSTER=etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380
+      - ETCD_INITIAL_CLUSTER_STATE=new
+      - ETCD_ENABLE_V2=true
+    networks:
+      - patroni
+    deploy:
+      replicas: 1
+      endpoint_mode: dnsrr
+      placement:
+        constraints:
+          - node.hostname == docker-desktop
+      restart_policy:
+        condition: any
+
+  etcd3:
+#    image: docker.io/bitnami/etcd:3-debian-10
+    image: 'bitnami/etcd:latest'
+    hostname: etcd3
+    ports:
+#      - 2383:2379
+#      - 2384:2380
+      - target: 2379
+        published: 2383
+        protocol: tcp
+        mode: host
+      - target: 2380
+        published: 2384
+        protocol: tcp
+        mode: host
+    environment:
+      - ALLOW_NONE_AUTHENTICATION=yes
+      - ETCD_NAME=etcd3
+      - ETCD_INITIAL_ADVERTISE_PEER_URLS=http://etcd3:2380
+      - ETCD_LISTEN_PEER_URLS=http://0.0.0.0:2380
+      - ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
+      - ETCD_ADVERTISE_CLIENT_URLS=http://etcd3:2379
+      - ETCD_INITIAL_CLUSTER_TOKEN=etcd-cluster
+      - ETCD_INITIAL_CLUSTER=etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380
+      - ETCD_INITIAL_CLUSTER_STATE=new
+      - ETCD_ENABLE_V2=true
+    networks:
+      - patroni
+    deploy:
+      replicas: 1
+      endpoint_mode: dnsrr
+      placement:
+        constraints:
+          - node.hostname == docker-desktop
+      restart_policy:
+        condition: any
