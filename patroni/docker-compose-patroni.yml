@@ -5,7 +5,7 @@ networks:
         external: true
 services:
     patroni1:
-        image: patroni-test2
+        image: patroni
         networks: [ patroni2_patroni ]
         ports:
             - 5441:5432
@@ -26,7 +26,7 @@ services:
             constraints: [node.hostname == docker-desktop]
 
     patroni2:
-        image: patroni-test2
+        image: patroni
         networks: [ patroni2_patroni ]
         ports:
             - 5442:5432
@@ -48,7 +48,7 @@ services:
 
 
     patroni3:
-        image: patroni-test2
+        image: patroni
         networks: [ patroni2_patroni ]
         ports:
             - 5443:5432
