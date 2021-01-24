@@ -1,5 +1,4 @@
-/haproxy/.idea/
-/zookeeper
-.idea
+zookeeper/
+**/.idea
 .DS_Store
 
