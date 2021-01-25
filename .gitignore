@@ -3,4 +3,4 @@ patroni-test/
 haproxy/haproxy configure.rtfd/
 **/.idea
 .DS_Store
-
+haproxy/haproxy1.cfg
