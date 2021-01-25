@@ -7,7 +7,6 @@ networks:
 
 services:
   etcd1:
-#    image: docker.io/bitnami/etcd:3-debian-10
     image: 'bitnami/etcd:latest'
     hostname: etcd1
     ports:
@@ -35,19 +34,13 @@ services:
     deploy:
       replicas: 1
       endpoint_mode: dnsrr
-      placement:
-        constraints:
-          - node.hostname == docker-desktop
       restart_policy:
         condition: any
 
   etcd2:
-#    image: docker.io/bitnami/etcd:3-debian-10
     image: 'bitnami/etcd:latest'
     hostname: etcd2
     ports:
-#      - 2381:2379
-#      - 2382:2380
       - target: 2379
         published: 2381
         protocol: tcp
@@ -72,19 +65,13 @@ services:
     deploy:
       replicas: 1
       endpoint_mode: dnsrr
-      placement:
-        constraints:
-          - node.hostname == docker-desktop
       restart_policy:
         condition: any
 
   etcd3:
-#    image: docker.io/bitnami/etcd:3-debian-10
     image: 'bitnami/etcd:latest'
     hostname: etcd3
     ports:
-#      - 2383:2379
-#      - 2384:2380
       - target: 2379
         published: 2383
         protocol: tcp
@@ -109,8 +96,5 @@ services:
     deploy:
       replicas: 1
       endpoint_mode: dnsrr
-      placement:
-        constraints:
-          - node.hostname == docker-desktop
       restart_policy:
         condition: any
