@@ -1,5 +1,6 @@
 zookeeper/
 patroni-test/
+haproxy/haproxy configure.rtfd/
 **/.idea
 .DS_Store
 
