@@ -1,18 +1,16 @@
 version: "3.4"
 
 networks:
-    patroni2_patroni: 
+    patroni_patroni:
         external: true
 services:
     patroni1:
         image: patroni
-        networks: [ patroni2_patroni ]
+        networks: [ patroni_patroni ]
         ports:
             - 5441:5432
             - 8091:8091
         hostname: patroni1
-        volumes:
-          - /var/folders/patroni/patroni1:/data/patroni
         environment:
             PATRONI_API_CONNECT_PORT: 8091
             REPLICATION_NAME: replicator 
@@ -22,18 +20,14 @@ services:
             POSTGRES_APP_ROLE_PASS: appass
         deploy:
           replicas: 1
-          placement:
-            constraints: [node.hostname == docker-desktop]
 
     patroni2:
         image: patroni
-        networks: [ patroni2_patroni ]
+        networks: [ patroni_patroni ]
         ports:
             - 5442:5432
             - 8092:8091
         hostname: patroni2
-        volumes:
-          - /var/folders/patroni/patroni2:/data/patroni
         environment:
             PATRONI_API_CONNECT_PORT: 8091
             REPLICATION_NAME: replicator 
@@ -43,19 +37,15 @@ services:
             POSTGRES_APP_ROLE_PASS: appass
         deploy:
           replicas: 1
-          placement:
-            constraints: [node.hostname == docker-desktop]
 
 
     patroni3:
         image: patroni
-        networks: [ patroni2_patroni ]
+        networks: [ patroni_patroni ]
         ports:
             - 5443:5432
             - 8093:8091
         hostname: patroni3
-        volumes:
-          - /var/folders/patroni/patroni3:/data/patroni
         environment:
             PATRONI_API_CONNECT_PORT: 8091
             REPLICATION_NAME: replicator 
@@ -65,5 +55,3 @@ services:
             POSTGRES_APP_ROLE_PASS: appass
         deploy:
           replicas: 1
-          placement:
-            constraints: [node.hostname == docker-desktop]

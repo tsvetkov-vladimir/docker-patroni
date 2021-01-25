@@ -1,4 +1,4 @@
-scope: patroni2
+scope: patroni
 namespace: /service/
 
 bootstrap:

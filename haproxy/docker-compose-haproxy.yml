@@ -1,21 +1,18 @@
 version: "3.7"
 
 networks:
-  patroni2_patroni:
+  patroni_patroni:
     external: true
 
 services:
  haproxy:
     image: haproxy-patroni
     networks:
-      - patroni2_patroni
+      - patroni_patroni
     ports:
       - 5000:5000
       - 7000:7000
     hostname: haproxy
     deploy:
-#      mode: global
       mode: replicated
-      replicas: 3
-      placement: 
-        constraints: [node.hostname == docker-desktop]
+      replicas: 1
