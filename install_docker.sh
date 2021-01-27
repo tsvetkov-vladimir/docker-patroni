@@ -16,9 +16,11 @@ curl -L https://github.com/docker/compose/releases/download/1.25.3/docker-compos
 
 chmod +x /usr/local/bin/docker-compose
 
-systemctl status docker
+systemctl status --no-pager docker
 
 docker-compose --version
 
 docker swarm init
+
+docker node ls
 
