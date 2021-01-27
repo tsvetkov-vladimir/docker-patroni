@@ -13,3 +13,6 @@
 `apt update`
 
 `apt -y install git`
+
+docker-compose --version
+
