@@ -13,3 +13,7 @@
 `apt update`
 
 `apt -y install git`
+
+2. Клонируем репозиторий
+
+`git clone https://github.com/tsvetkov-vladimir/docker-patroni.git`
