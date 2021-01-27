@@ -32,6 +32,13 @@
 
 ## **Создание образов patroni и haproxy**
 
-1. Выполняем команду
+1.Выполняем команду
 
 `./create_images.sh`
+
+## **Запуск Docker swarm**
+
+1.Выполняем команду
+
+`docker swarm init`
+
