@@ -22,8 +22,6 @@
 
 `cd docker-patroni/`
 
-`chmod +x install_docker.sh`
-
 `./install_docker.sh`
 
 4.Проверка результата установки
@@ -33,3 +31,7 @@
 `docker-compose --version`
 
 ## **Создание образов patroni и haproxy**
+
+1. Выполняем команду
+
+`./create_images.sh`
