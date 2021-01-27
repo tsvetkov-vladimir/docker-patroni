@@ -25,3 +25,7 @@
 `chmod +x install_docker.sh`
 
 `./install_docker.sh`
+
+4.Проверка результата установки
+
+`systemctl status docker`
