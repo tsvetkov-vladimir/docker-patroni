@@ -31,3 +31,5 @@
 `systemctl status docker`
 
 `docker-compose --version`
+
+## **Создание образов patroni и haproxy**
