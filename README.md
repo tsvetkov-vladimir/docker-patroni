@@ -14,5 +14,20 @@
 
 `apt -y install git`
 
-docker-compose --version
+2. Клонируем репозиторий
 
+`git clone https://github.com/tsvetkov-vladimir/docker-patroni.git`
+
+3. Устнавливаем docker и docker-compose
+
+`cd docker-patroni/`
+
+`chmod +x install_docker.sh`
+
+`./install_docker.sh`
+
+4.Проверка результата установки
+
+`systemctl status docker`
+
+`docker-compose --version`
