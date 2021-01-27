@@ -6,10 +6,10 @@
 
 Для тестирования и отладки использовались виртуальные машины созданные на ресурсе https://vscale.io.
 
-Установка
+## **Установка**
 
 1.Устанавливаем git
 
-apt update
+`apt update`
 
-apt -y install git
+`apt -y install git`
