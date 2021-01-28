@@ -7,6 +7,6 @@ cd ../patroni/
 
 docker stack deploy --compose-file docker-compose-patroni.yml patroni
 
-cd ../haproxy
+cd ../haproxy/
 
 docker stack deploy --compose-file docker-compose-haproxy.yml patroni
