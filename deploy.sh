@@ -14,3 +14,7 @@ sleep 5
 cd ../haproxy/
 
 docker stack deploy --compose-file docker-compose-haproxy.yml patroni
+
+sleep
+
+docker service ls
