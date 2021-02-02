@@ -1,4 +1,4 @@
-FROM haproxytech/haproxy-debian:2.4
+FROM haproxytech/haproxy-debian:2.2
 COPY haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
 RUN mkdir /run/haproxy &&\
     apt-get update -y &&\
