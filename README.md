@@ -14,11 +14,11 @@
 
 `apt -y install git`
 
-2. Клонируем репозиторий
+2. Клонируем репозиторий на каждый узел кластера
 
 `git clone https://github.com/tsvetkov-vladimir/docker-patroni.git`
 
-3. Устнавливаем docker и docker-compose
+3. Устнавливаем docker и docker-compose на каждом узле кластера
 
 `cd docker-patroni/`
 
@@ -32,18 +32,24 @@
 
 ## **Создание образов patroni и haproxy**
 
-1.Выполняем команду
+1.Выполняем команду на каждом узле
 
 `./create_images.sh`
 
 ## **Запуск Docker swarm**
 
-1.Выполняем команду
+1.Выполняем команду на управляющем узле
 
 `docker swarm init`
 
+`docker node ls`
+
+2.Для присоединения узла в качестве докера необходимо на присоединяемом узле выполнить команду
+
+`docker swarm join --token SWMTKN-1-4nxtulbtj38n3v782satsnat3eu8lm7e74ir7u6i05nepjtwe6-c61idt643vdxrs7llpjkrvsl2 82.148.18.190:2377`
+
 ## **Запуск сервисов в кластере**
 
-1.Выполняем команду
+1.Выполняем команду на управляющем узле
 
 `./deploy.sh`

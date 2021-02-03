@@ -20,7 +20,7 @@ systemctl status --no-pager docker
 
 docker-compose --version
 
-docker swarm init
+#docker swarm init
 
-docker node ls
+#docker node ls
 
