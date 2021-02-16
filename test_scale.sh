@@ -12,6 +12,7 @@ do
 	if [[ ${status} = 200 ]]
 	then
     echo "host patroni$i down..."
+    sleep 30
     docker service scale patroni_patroni$i=0
     ((k++))
   elif [[ ${k} = 3 ]]
@@ -19,6 +20,7 @@ do
     for k in 3 2 1
     do
       echo "host patroni$k up..."
+      sleep 10
       docker service scale patroni_patroni$k=1
     done
     k=0
