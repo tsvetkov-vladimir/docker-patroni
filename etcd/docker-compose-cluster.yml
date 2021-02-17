@@ -29,7 +29,7 @@ services:
 #      - ETCD_INITIAL_CLUSTER=etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380
       - ETCD_INITIAL_CLUSTER=etcd1=http://etcd1:2380
       - ETCD_INITIAL_CLUSTER_STATE=new
-#      - ETCD_ENABLE_V2=true
+      - ETCD_ENABLE_V2=true
     networks:
       - patroni
     deploy:
