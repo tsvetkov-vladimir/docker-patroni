@@ -92,3 +92,12 @@ http://81.163.28.31:7000
 4.Имитация отключения задачи
 
 `docker service scale patroni_patroni3=0`
+
+5.Вход в консоль контейнера
+`docker exec -it <id> /bin/bash`
+
+6.Содержимое etcd можно посмотреть выполнив команду
+`curl -s 'http://127.0.0.1:2379/v2/keys/service?recursive=true&sorted=true' | jq`
+или как альтернатива
+`curl -s 'http://127.0.0.1:2379/v2/keys/?recursive=true&sorted=true' | jq`
+эту команду надо выполнить внутри контейнера etcd.
