@@ -101,3 +101,25 @@ http://81.163.28.31:7000
 или как альтернатива
 `curl -s 'http://127.0.0.1:2379/v2/keys/?recursive=true&sorted=true' | jq`
 эту команду надо выполнить внутри контейнера etcd.
+
+7.API patroni
+Чтобы проверить статус кластера patroni необходимо зайти в консоль контроллера haproxy
+`docker exec -it <id> /bin/bash`
+и командной строке выполнять запросы, которые вернуть JSON документ
+`curl  http://patroniN:8091/patroni
+curl  http://patroniN:8091/history
+curl  http://patroniN:8091/cluster`
+если требуется проверить жизнеспособность узла, то необходимо выполнить запросы
+`curl -i -X OPTIONS http://patroniN:8091/
+curl -i -X OPTIONS http://patroniN:8091/master
+curl -i -X OPTIONS http://patroniN:8091/leader
+curl -i -X OPTIONS http://patroniN:8091/primary
+curl -i -X OPTIONS http://patroniN:8091/read-write
+curl -i -X OPTIONS http://patroniN:8091/replica
+curl -i -X OPTIONS http://patroniN:8091/read-only
+curl -i -X OPTIONS http://patroniN:8091/standby-leader
+curl -i -X OPTIONS http://patroniN:8091/synchronous
+curl -i -X OPTIONS http://patroniN:8091/asynchronous
+curl -i -X OPTIONS http://patroniN:8091/health
+curl -i -X OPTIONS http://patroniN:8091/liveness
+curl -i -X OPTIONS http://patroniN:8091/readiness`
