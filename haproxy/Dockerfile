@@ -4,4 +4,5 @@ COPY haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
 RUN mkdir /run/haproxy &&\
     apt-get update -y &&\
     apt-get install -y hatop &&\
+    apt-get install -y tcpdump &&\
     apt-get clean
