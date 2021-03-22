@@ -171,3 +171,6 @@ http://81.163.28.31:7000
 В случае когда из кластера выпали все узлы и включения первого узла, этот узел не может стать лидером необходимо выполнить очистку ключа в etcd выполнив команду, которая инициализирует кластер
 
 `patronictl -c /etc/patroni.yml remove patroni`
+
+echo -e "patroni\nYes I am aware" > /tmp/ddd
+patronictl -c /etc/patroni.yml remove patroni < /tmp/ddd
