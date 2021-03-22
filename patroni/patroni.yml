@@ -17,6 +17,9 @@ bootstrap:
                     max_wal_senders: 5
                     max_replication_slots: 5
                     checkpoint_timeout: 30
+                    log_connections: true
+                    log_statement: all
+                    log_min_messages: INFO
 
     initdb:
     - encoding: UTF8
