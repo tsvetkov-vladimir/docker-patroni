@@ -175,3 +175,5 @@ http://81.163.28.31:7000
 `echo -e "patroni\nYes I am aware" > /tmp/ddd`
 
 `patronictl -c /etc/patroni.yml remove patroni < /tmp/ddd`
+
+`docker exec -it 4aa1ccf2b42a /bin/bash -c 'echo -e "patroni\\nYes I am aware" > /tmp/ddd;patronictl -c /etc/patroni.yml remove patroni < /tmp/ddd'`
