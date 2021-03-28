@@ -54,6 +54,10 @@
 
 `./deploy.sh`
 
+Стоит отметить, инициализация haproxy опытном путем установлено должна осуществляться через некоторое время. 
+Это время задержки установлено в 15 секунд.
+Иначе некорректно выполняется опрос бакендов.
+
 ## **Команды проверки сервиса**
 
 1. Проверка запуска сервисов (команда выполняется только на управляющем узле)
@@ -176,4 +180,4 @@ http://81.163.28.31:7000
 
 `patronictl -c /etc/patroni.yml remove patroni < /tmp/ddd`
 
-`docker exec -it 4aa1ccf2b42a /bin/bash -c 'echo -e "patroni\\nYes I am aware" > /tmp/ddd;patronictl -c /etc/patroni.yml remove patroni < /tmp/ddd'`
+`docker exec -it $(docker ps -q -f name=patroni_patroni1) /bin/bash -c 'echo -e "patroni\nYes I am aware" > /tmp/ddd;patronictl -c /etc/patroni.yml remove patroni < /tmp/ddd'`
