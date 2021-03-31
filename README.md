@@ -181,3 +181,13 @@ http://81.163.28.31:7000
 `patronictl -c /etc/patroni.yml remove patroni < /tmp/ddd`
 
 `docker exec -it $(docker ps -q -f name=patroni_patroni1) /bin/bash -c 'echo -e "patroni\nYes I am aware" > /tmp/ddd;patronictl -c /etc/patroni.yml remove patroni < /tmp/ddd'`
+
+## **Сеть в docker**
+
+1. Список сетей 
+
+`docker natwork ls`
+
+2. Свойства сети
+
+`docker network inspect bridge`

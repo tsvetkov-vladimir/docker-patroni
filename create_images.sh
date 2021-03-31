@@ -1,6 +1,10 @@
 #!/bin/bash
 
-cd patroni
+cd etcd
+
+docker build -t etcd .
+
+cd ../patroni
 
 docker build -t patroni .
 
