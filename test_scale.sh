@@ -23,6 +23,8 @@ do
       sleep 10
       docker service scale patroni_patroni$k=1
     done
+    docker exec -it $(docker ps -q -f name=patroni_patroni1) /bin/bash -c 'echo -e "patroni\nYes I am aware" > /tmp/ddd;patronictl -c /etc/patroni.yml remove patroni < /tmp/ddd'
+    docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c 'kill -s HUP $(pidof haproxy)'
     k=0
 	fi
 	sleep 1

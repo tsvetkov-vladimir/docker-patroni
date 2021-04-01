@@ -103,7 +103,11 @@ http://81.163.28.31:7000
 
 Возможна ситуация, что нода будет работоспособна, но через haproxy она будет отображаться как недоступна в этом случае следует выполнить команду
 
-`docker kill -s HUP haproxy-patroni`
+`docker kill -s HUP haproxy-patroni` (эта команда не всегда помогает)
+
+Альтернативный вариант более надежный
+
+`docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c 'kill -s HUP $(pidof haproxy)'`
 
 5. Вход в консоль контейнера
 `docker exec -it <id> /bin/bash`
@@ -160,7 +164,7 @@ http://81.163.28.31:7000
 
 `curl -i -X OPTIONS http://patroniN:8091/readiness`
 
-Пере инициализация, только не реплике
+Пере инициализация, только на реплике
 
 `curl -s http://patroni3:8091/reinitialize -XPOST -d  '{"force":true}'`
 
