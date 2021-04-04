@@ -4,6 +4,7 @@ RUN apt-get update -y\
     && apt-get install python3 python3-pip -y\
     && apt-get install -y iproute2\
     && apt-get install -y iputils-ping\
+    && apt-get install -y curl\
     && pip3 install --upgrade setuptools\
     && pip3 install psycopg2-binary \
     && pip3 install patroni[etcd] \
