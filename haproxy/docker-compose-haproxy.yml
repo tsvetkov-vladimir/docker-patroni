@@ -11,6 +11,7 @@ services:
       - patroni_patroni
     ports:
       - 5000:5000
+      - 5001:5001
       - 7000:7000
     hostname: haproxy
     deploy:
