@@ -2,7 +2,7 @@
 
 apt update
 
-apt -y install apt-transport-https ca-certificates curl gnupg2 software-properties-common
+apt -y install apt-transport-https ca-certificates curl gnupg2 software-properties-common postgresql-client
 
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
 

@@ -1,0 +1,8 @@
+DO
+$$
+BEGIN
+    LOOP
+        INSERT INTO test VALUES (DEFAULT);
+    END LOOP;
+END
+$$
