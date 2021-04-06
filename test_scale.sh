@@ -3,6 +3,12 @@
 j=0
 k=0
 
+if ! psql postgresql://postgres:supass@80.249.144.135:5000 -f create.sql
+then
+  echo "error psql";
+  exit 1;
+fi
+
 while true 
 do
 	i=$(( j % 3 + 1))
