@@ -9,7 +9,7 @@ then
   exit 1;
 fi
 
-psql postgresql://postgres:supass@127.0.0.1:5000 -f insert.sql &
+./test_insert.sh &
 
 while true 
 do
