@@ -11,8 +11,7 @@ RUN apt-get update -y\
     && usermod -u 503 postgres \
     && mkdir /data/patroni -p \
     && chown postgres:postgres /data/patroni \
-    && chmod 700 /data/patroni \
-    && mkdir /data/patroni1 -p 
+    && chmod 700 /data/patroni
 
 COPY patroni.yml /etc/patroni.yml
 COPY patroni-entrypoint.sh ./entrypoint.sh
