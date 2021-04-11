@@ -11,6 +11,8 @@ services:
             - 5441:5432
             - 8091:8091
         hostname: patroni1
+        volumes:
+            - /data/patroni/main1:/data/patroni
         environment:
             PATRONI_API_CONNECT_PORT: 8091
             REPLICATION_NAME: replicator 
@@ -21,37 +23,37 @@ services:
         deploy:
           replicas: 1
 
-    patroni2:
-        image: patroni
-        networks: [ patroni_patroni ]
-        ports:
-            - 5442:5432
-            - 8092:8091
-        hostname: patroni2
-        environment:
-            PATRONI_API_CONNECT_PORT: 8091
-            REPLICATION_NAME: replicator 
-            REPLICATION_PASS: replpass
-            SU_NAME: postgres
-            SU_PASS: supass
-            POSTGRES_APP_ROLE_PASS: appass
-        deploy:
-          replicas: 1
-
-
-    patroni3:
-        image: patroni
-        networks: [ patroni_patroni ]
-        ports:
-            - 5443:5432
-            - 8093:8091
-        hostname: patroni3
-        environment:
-            PATRONI_API_CONNECT_PORT: 8091
-            REPLICATION_NAME: replicator 
-            REPLICATION_PASS: replpass
-            SU_NAME: postgres
-            SU_PASS: supass
-            POSTGRES_APP_ROLE_PASS: appass
-        deploy:
-          replicas: 1
+#    patroni2:
+#        image: patroni
+#        networks: [ patroni_patroni ]
+#        ports:
+#            - 5442:5432
+#            - 8092:8091
+#        hostname: patroni2
+#        environment:
+#            PATRONI_API_CONNECT_PORT: 8091
+#            REPLICATION_NAME: replicator
+#            REPLICATION_PASS: replpass
+#            SU_NAME: postgres
+#            SU_PASS: supass
+#            POSTGRES_APP_ROLE_PASS: appass
+#        deploy:
+#          replicas: 1
+#
+#
+#    patroni3:
+#        image: patroni
+#        networks: [ patroni_patroni ]
+#        ports:
+#            - 5443:5432
+#            - 8093:8091
+#        hostname: patroni3
+#        environment:
+#            PATRONI_API_CONNECT_PORT: 8091
+#            REPLICATION_NAME: replicator
+#            REPLICATION_PASS: replpass
+#            SU_NAME: postgres
+#            SU_PASS: supass
+#            POSTGRES_APP_ROLE_PASS: appass
+#        deploy:
+#          replicas: 1
