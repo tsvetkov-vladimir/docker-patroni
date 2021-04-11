@@ -51,7 +51,7 @@ services:
             - 8093:8091
         hostname: patroni3
         volumes:
-            - /data/patroni/main2:/data/patroni
+            - /data/patroni/main3:/data/patroni
         environment:
             PATRONI_API_CONNECT_PORT: 8091
             REPLICATION_NAME: replicator
