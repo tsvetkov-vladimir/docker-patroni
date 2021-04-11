@@ -20,7 +20,7 @@ systemctl status --no-pager docker
 
 docker-compose --version
 
-mkdir -p /data/patroni/{main1, main2, main3}
+mkdir -p /data/patroni/{main1,main2,main3}
 
 useradd -d /data/patroni/ -s /bin/bash -u 503 postgres
 
