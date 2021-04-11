@@ -30,6 +30,8 @@ services:
             - 5442:5432
             - 8092:8091
         hostname: patroni2
+        volumes:
+            - /data/patroni/main2:/data/patroni
         environment:
             PATRONI_API_CONNECT_PORT: 8091
             REPLICATION_NAME: replicator
@@ -48,6 +50,8 @@ services:
             - 5443:5432
             - 8093:8091
         hostname: patroni3
+        volumes:
+            - /data/patroni/main2:/data/patroni
         environment:
             PATRONI_API_CONNECT_PORT: 8091
             REPLICATION_NAME: replicator
