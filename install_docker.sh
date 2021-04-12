@@ -26,6 +26,8 @@ useradd -d /data/patroni/ -s /bin/bash -u 503 postgres
 
 chown postgres:postgres -R /data/patroni
 
+chmod 0700 -R /data/patroni/*
+
 #docker swarm init
 
 #docker node ls
