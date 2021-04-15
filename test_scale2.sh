@@ -2,6 +2,8 @@
 
 j=0
 k=0
+m=0
+flag=false
 
 # 1. Create ProgressBar function
 # 1.1 Input is currentState($1) and totalState($2)
@@ -34,6 +36,19 @@ do
 	status=$(docker exec -ti "$(docker ps -q | head -n 1)" curl -o /dev/null -s -w "%{http_code}\n" http://patroni$i:8091)
 	echo "status patroni$i - ${status}"
 	status="$(echo -e "${status}" | tr -d '[:space:]')"
+
+	if [[ ${status} = 000 && ${flag} = false ]]
+	then
+	  flag=true
+	  ((m++))
+	elif [[ ${status} = 000 && ${flag} = true ]]
+	then
+	  ((m++))
+	else
+	  m=0
+	  flag=false
+	fi
+
 	if [[ ${status} = 200 ]]
 	then
     echo "host patroni$i down after 30 sec"
@@ -53,7 +68,7 @@ do
     echo "host patroni$i down..."
     docker service scale patroni_patroni$i=0
     ((k++))
-  elif [[ ${k} = 3 ]]
+  elif [[ ${k} = 3 || ${m} = 3 ]]
   then
     echo "Recovery cluster..."
     for k in 1
