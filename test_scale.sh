@@ -2,6 +2,8 @@
 
 j=0
 k=0
+m=0
+flag=false
 
 if ! psql postgresql://postgres:supass@127.0.0.1:5000 -f create.sql
 then
@@ -17,13 +19,26 @@ do
 	status=$(docker exec -ti "$(docker ps -q | head -n 1)" curl -o /dev/null -s -w "%{http_code}\n" http://patroni$i:8091)
 	echo "status patroni$i - ${status}"
 	status="$(echo -e "${status}" | tr -d '[:space:]')"
+
+	if [[ ${status} = 000 && ${flag} = false ]]
+	then
+	  flag=true
+	  ((m++))
+	elif [[ ${status} = 000 && ${flag} = true ]]
+	then
+	  ((m++))
+	else
+	  m=0
+	  flag=false
+	fi
+
 	if [[ ${status} = 200 ]]
 	then
     echo "host patroni$i down..."
     sleep 30
     docker service scale patroni_patroni$i=0
     ((k++))
-  elif [[ ${k} = 3 ]]
+  elif [[ ${k} = 3 || ${m} = 3 ]]
   then
     for k in 3 2 1
     do
