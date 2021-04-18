@@ -70,8 +70,15 @@ do
     ((k++))
   elif [[ ${k} = 3 || ${m} = 3 ]]
   then
-    sleep 60
-    echo "Recovery cluster..."
+    echo "Recovery cluster start after 60 sec..."
+    _start=1
+    _end=600
+    for number in $(seq ${_start} ${_end})
+    do
+      sleep 0.1
+      ProgressBar ${number} ${_end}
+    done
+    echo "Recovery cluster start..."
     docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c "sed -i 's/.*patroni/# \0/' /usr/local/etc/haproxy/haproxy.cfg"
 
     for k in 1 2 3
@@ -84,6 +91,14 @@ do
       if [[ $k > 1 ]]; then
         docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c "curl -s http://patroni${n}:8091/reinitialize -XPOST -d '{\"force\":true}'"
       fi
+      echo "Run patroni${n} 20 sec"
+      _start=1
+      _end=200
+      for number in $(seq ${_start} ${_end})
+      do
+        sleep 0.1
+        ProgressBar ${number} ${_end}
+      done
     done
 	fi
 	sleep 1
