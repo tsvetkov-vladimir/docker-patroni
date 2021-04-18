@@ -80,9 +80,9 @@ do
       echo "host patroni${n} up..."
       docker service scale patroni_patroni${n}=1
       docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c "sed -i '/^#.*patroni${n}/s/^#//' /usr/local/etc/haproxy/haproxy.cfg"
-      docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c "kill -s HUP $(pidof haproxy)"
+      docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c 'kill -s HUP $(pidof haproxy)'
       if [[ $k > 1 ]]; then
-        docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c "curl -s http://patroni${n}:8091/reinitialize -XPOST -d '{\"force\":true}\'"
+        docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c "curl -s http://patroni${n}:8091/reinitialize -XPOST -d '{\"force\":true}'"
       fi
     done
 	fi
