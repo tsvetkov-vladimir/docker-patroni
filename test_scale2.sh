@@ -33,8 +33,8 @@ fi
 while true
 do
 	i=$(( j % 3 + 1))
-	status=$(docker exec -ti "$(docker ps -q | head -n 1)" curl -o /dev/null -s -w "%{http_code}\n" http://patroni$i:8091)
-	echo "status patroni$i - ${status}"
+	status=$(docker exec -ti "$(docker ps -q | head -n 1)" curl -o /dev/null -s -w "%{http_code}\n" http://patroni${i}:8091)
+	echo "status patroni${i} - ${status}"
 	status="$(echo -e "${status}" | tr -d '[:space:]')"
 
 	if [[ ${status} = 000 && ${flag} = false ]]
@@ -66,16 +66,20 @@ do
     done
     printf "\n"
     echo "host patroni$i down..."
-    docker service scale patroni_patroni$i=0
+    docker service scale patroni_patroni${i}=0
     ((k++))
   elif [[ ${k} = 3 || ${m} = 3 ]]
   then
     echo "Recovery cluster..."
+    docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c "sed -i 's/.*patroni/# \0/' /usr/local/etc/haproxy/haproxy.cfg"
+
     for k in 1
     do
       n=$(($RANDOM % 3 + 1))
-      echo "host patroni$n up..."
-      docker service scale patroni_patroni$n=1
+      echo "host patroni${n} up..."
+      docker service scale patroni_patroni${n}=1
+      #sed -i 's/.*patroni2/# \0/' /usr/local/etc/haproxy/haproxy.cfg
+      docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c "sed -i '/^#.*patroni${n}/s/^#//' /usr/local/etc/haproxy/haproxy.cfg"
       docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c 'kill -s HUP $(pidof haproxy)'
       exit 0
     done
