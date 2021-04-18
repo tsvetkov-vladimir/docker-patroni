@@ -70,18 +70,20 @@ do
     ((k++))
   elif [[ ${k} = 3 || ${m} = 3 ]]
   then
+    sleep 60
     echo "Recovery cluster..."
     docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c "sed -i 's/.*patroni/# \0/' /usr/local/etc/haproxy/haproxy.cfg"
 
-    for k in 1
+    for k in 1 2 3
     do
       n=$(($RANDOM % 3 + 1))
       echo "host patroni${n} up..."
       docker service scale patroni_patroni${n}=1
-      #sed -i 's/.*patroni2/# \0/' /usr/local/etc/haproxy/haproxy.cfg
       docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c "sed -i '/^#.*patroni${n}/s/^#//' /usr/local/etc/haproxy/haproxy.cfg"
-      docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c 'kill -s HUP $(pidof haproxy)'
-      exit 0
+      docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c "kill -s HUP $(pidof haproxy)"
+      if [[ $k > 1 ]]; then
+        docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c "curl -s http://patroni${n}:8091/reinitialize -XPOST -d '{\"force\":true}\'"
+      fi
     done
 	fi
 	sleep 1
