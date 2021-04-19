@@ -81,16 +81,17 @@ do
     echo "Recovery cluster start..."
     docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c "sed -i 's/.*patroni/# \0/' /usr/local/etc/haproxy/haproxy.cfg"
 
-    for k in 1 2 3
+    for k in 3 2 1
     do
       n=$(($RANDOM % 3 + 1))
       echo "host patroni${n} up..."
       docker service scale patroni_patroni${n}=1
       docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c "sed -i '/^#.*patroni${n}/s/^#//' /usr/local/etc/haproxy/haproxy.cfg"
       docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c 'kill -s HUP $(pidof haproxy)'
-      if [[ $k > 1 ]]; then
+      if [[ $k < 3 ]]; then
         docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c "curl -s http://patroni${n}:8091/reinitialize -XPOST -d '{\"force\":true}'"
       fi
+      printf "\n"
       echo "Run patroni${n} 20 sec"
       _start=1
       _end=200
