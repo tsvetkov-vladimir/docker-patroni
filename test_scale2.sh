@@ -83,23 +83,24 @@ do
 
     for k in 3 2 1
     do
-      n=$(($RANDOM % 3 + 1))
+      n=$(($RANDOM % ${k} + 1))
       echo "host patroni${n} up..."
       docker service scale patroni_patroni${n}=1
       docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c "sed -i '/^#.*patroni${n}/s/^#//' /usr/local/etc/haproxy/haproxy.cfg"
       docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c 'kill -s HUP $(pidof haproxy)'
-      if [[ $k < 3 ]]; then
+      if [[ ${k} < 3 ]]; then
         docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c "curl -s http://patroni${n}:8091/reinitialize -XPOST -d '{\"force\":true}'"
       fi
       printf "\n"
       echo "Run patroni${n} 20 sec"
       _start=1
-      _end=200
+      _end=300
       for number in $(seq ${_start} ${_end})
       do
         sleep 0.1
         ProgressBar ${number} ${_end}
       done
+      printf "\n"
     done
 	fi
 	sleep 1
