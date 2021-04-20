@@ -30,6 +30,7 @@ fi
 
 ./test_insert.sh &
 
+# бесконечный цикл по деградации и восстановления роя
 while true
 do
 	i=$(( j % 3 + 1))
@@ -37,6 +38,7 @@ do
 	echo "status patroni${i} - ${status}"
 	status="$(echo -e "${status}" | tr -d '[:space:]')"
 
+# блок для формирования признака полной деградации роя в случае, когда тест был запущен при частичной деградации
 	if [[ ${status} = 000 && ${flag} = false ]]
 	then
 	  flag=true
@@ -49,6 +51,7 @@ do
 	  flag=false
 	fi
 
+# блок имитации аварии на мастере
 	if [[ ${status} = 200 ]]
 	then
     echo "host patroni$i down after 30 sec"
@@ -68,6 +71,7 @@ do
     echo "host patroni$i down..."
     docker service scale patroni_patroni${i}=0
     ((k++))
+# блок восстановления роя
   elif [[ ${k} = 3 || ${m} = 3 ]]
   then
     echo "Recovery cluster start after 60 sec..."
@@ -78,11 +82,13 @@ do
       sleep 0.1
       ProgressBar ${number} ${_end}
     done
+    printf "\n"
     echo "Recovery cluster start..."
     docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c "sed -i 's/.*patroni/# \0/' /usr/local/etc/haproxy/haproxy.cfg"
     arr=(1 2 3)
     for k in 3 2 1
     do
+      # формируем случайный номер восстанавливаемого узла
       n=$(($RANDOM % ${k}))
       n=${arr[${n}]}
       arr=(${arr[@]/${n}})
