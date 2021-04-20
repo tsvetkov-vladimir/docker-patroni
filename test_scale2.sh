@@ -24,7 +24,7 @@ ProgressBar() {
 
 psql postgresql://postgres:supass@127.0.0.1:5000 -tc "SELECT 1 FROM pg_database WHERE datname = 'test'" | grep -q 1 || psql postgresql://postgres:supass@127.0.0.1:5000  -c "CREATE DATABASE test"
 
-psql postgresql://postgres:supass@127.0.0.1:5000 -tc "CREATE TABLE IF NOT EXISTS test (id SERIAL);"
+psql postgresql://postgres:supass@127.0.0.1:5000/test -tc "CREATE TABLE IF NOT EXISTS test (id SERIAL);"
 
 #if ! psql postgresql://postgres:supass@127.0.0.1:5000 -f create.sql
 #then
