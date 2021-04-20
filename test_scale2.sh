@@ -22,11 +22,15 @@ ProgressBar() {
   printf "\rProgress : [${_fill// /#}${_empty// /-}] ${_progress}%%"
 }
 
-if ! psql postgresql://postgres:supass@127.0.0.1:5000 -f create.sql
-then
-  echo "error psql";
-  exit 1;
-fi
+psql postgresql://postgres:supass@127.0.0.1:5000 -tc "SELECT 1 FROM pg_database WHERE datname = 'test'" | grep -q 1 || psql postgresql://postgres:supass@127.0.0.1:5000  -c "CREATE DATABASE test"
+
+psql postgresql://postgres:supass@127.0.0.1:5000 -tc "CREATE TABLE IF NOT EXISTS test (id SERIAL);"
+
+#if ! psql postgresql://postgres:supass@127.0.0.1:5000 -f create.sql
+#then
+#  echo "error psql";
+#  exit 1;
+#fi
 
 ./test_insert.sh &
 
