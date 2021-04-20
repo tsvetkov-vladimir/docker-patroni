@@ -76,6 +76,7 @@ do
     docker service scale patroni_patroni${i}=0
     ((k++))
 # блок восстановления роя
+    echo "k = ${k}, m = ${m}"
   elif [[ ${k} = 3 || ${m} = 3 ]]
   then
     echo "Recovery cluster start after 60 sec..."
