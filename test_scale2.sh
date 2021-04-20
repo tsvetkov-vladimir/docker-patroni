@@ -115,6 +115,7 @@ do
       done
       printf "\n"
     done
+    k=0
 	fi
 	sleep 1
 	((j++))
