@@ -58,7 +58,7 @@ do
 # блок имитации аварии на мастере
 	if [[ ${status} = 200 ]]
 	then
-    printf "\e[1;31mhost patroni$i down after 30 sec\e[m"
+    printf "\e[1;31mhost patroni$i down after 30 sec\e[m\n"
     # Variables
     _start=1
 
@@ -72,14 +72,14 @@ do
       ProgressBar ${number} ${_end}
     done
     printf "\n"
-    printf "\e[1;31mhost patroni$i down...\e[m"
+    printf "\e[1;31mhost patroni$i down...\e[m\n"
     docker service scale patroni_patroni${i}=0
     ((k++))
 # блок восстановления роя
 #    echo "k = ${k}, m = ${m}"
   elif [[ ${k} = 3 || ${m} = 3 ]]
   then
-    printf "\e[42mRecovery cluster start after 60 sec...\e[m"
+    printf "\e[42mRecovery cluster start after 60 sec...\e[m\n"
     _start=1
     _end=600
     for number in $(seq ${_start} ${_end})
@@ -88,7 +88,7 @@ do
       ProgressBar ${number} ${_end}
     done
     printf "\n"
-    printf "\e[1;32mRecovery cluster start...\e[m"
+    printf "\e[1;32mRecovery cluster start...\e[m\n"
     docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c "sed -i 's/.*patroni/# \0/' /usr/local/etc/haproxy/haproxy.cfg"
     arr=(1 2 3)
     for k in 3 2 1
@@ -97,7 +97,7 @@ do
       n=$(($RANDOM % ${k}))
       n=${arr[${n}]}
       arr=(${arr[@]/${n}})
-      printf "\e[1;32mhost patroni${n} up...\e[m"
+      printf "\e[1;32mhost patroni${n} up...\e[m\n"
       docker service scale patroni_patroni${n}=1
       docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c "sed -i '/^#.*patroni${n}/s/^#//' /usr/local/etc/haproxy/haproxy.cfg"
       docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c 'kill -s HUP $(pidof haproxy)'
@@ -105,7 +105,7 @@ do
         docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c "curl -s http://patroni${n}:8091/reinitialize -XPOST -d '{\"force\":true}'"
       fi
       printf "\n"
-      printf "\e[1;32mRun patroni${n} 30 sec\e[m"
+      printf "\e[1;32mRun patroni${n} 30 sec\e[m\n"
       _start=1
       _end=300
       for number in $(seq ${_start} ${_end})
