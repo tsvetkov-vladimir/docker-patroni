@@ -16,4 +16,4 @@ services:
     hostname: haproxy
     deploy:
       mode: replicated
-      replicas: 1
+      replicas: 2
