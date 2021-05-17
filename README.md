@@ -44,6 +44,11 @@
 
 `docker node ls`
 
+Если на узле несколько сетевых интерфейсов, то необходимо указать какой именно использовать.
+Например
+
+`docker swarm init --advertise-addr 172.28.128.4`
+
 2. Для присоединения узла в качестве докера необходимо на присоединяемом узле выполнить команду
 
 `docker swarm join --token SWMTKN-1-4nxtulbtj38n3v782satsnat3eu8lm7e74ir7u6i05nepjtwe6-c61idt643vdxrs7llpjkrvsl2 82.148.18.190:2377`

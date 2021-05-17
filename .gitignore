@@ -4,3 +4,4 @@ haproxy/haproxy configure.rtfd/
 **/.idea
 .DS_Store
 haproxy/haproxy1.cfg
+vagrant_debian/.vagrant/
