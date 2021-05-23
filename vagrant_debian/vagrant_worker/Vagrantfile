@@ -57,7 +57,7 @@ Vagrant.configure("2") do |config|
   #   # Customize the amount of memory on the VM:
   #  vb.memory = "1024"
     # имя виртуальной машины
-    vb.name = "debian-patroni"
+    vb.name = "debian-patroni2"
     # объем оперативной памяти
     vb.memory = "2048"
     # количество ядер процессора
@@ -70,9 +70,9 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
-    class IPadress
+    class Token
         def to_s
-            print "Выберите сетевой интерфейс для  docker swarm init: "
+            print "Введите токен для присоединения воркера к рою: "
             STDIN.gets.chomp
         end
     end
@@ -119,22 +119,18 @@ Vagrant.configure("2") do |config|
      cd docker-patroni/
      ./install_docker.sh
      ./create_images.sh
-     echo "Найдены следующие сетевые интерфейсы:"
-     ip addr show|egrep '^ *inet' | grep brd | egrep -E -v "docker" | awk -- '{ print $2,$7}'
+#     echo "Найдены следующие сетевые интерфейсы:"
+#     ip addr show|egrep '^ *inet' | grep brd | egrep -E -v "docker" | awk -- '{ print $2,$7}'
      SHELL
 
     $script = <<-'SHELL'
-     docker swarm init --advertise-addr ${NETIF}
+     docker swarm join --token ${TOKEN}
      cd docker-patroni/
      sudo sed -i "s|^\(\s*interface \).*|\1${NETIFKEEPALIVED}|" keepalived/keepalived.conf
      sudo sed -i "s/^\(\s*\)0.0.0.0/\1${IPKEEPALIVED}\/32/" keepalived/keepalived.conf
      sudo cp keepalived/keepalived.conf /etc/keepalived/
+     sudo systemctl restart keepalived.service
     SHELL
 
-    config.vm.provision "shell", env: {"NETIF" => IPadress.new, "NETIFKEEPALIVED" => NetInterface.new, "IPKEEPALIVED" => IPkeepadress.new}, inline: $script
-    config.vm.provision "shell", env: {"EMPTY" => Join.new}, inline: <<-'SHELL'
-     cd docker-patroni/
-     sudo systemctl restart keepalived.service
-     ./deploy.sh
-    SHELL
-end
+    config.vm.provision "shell", env: {"TOKEN" => Token.new, "NETIFKEEPALIVED" => NetInterface.new, "IPKEEPALIVED" => IPkeepadress.new}, inline: $script
+ end
