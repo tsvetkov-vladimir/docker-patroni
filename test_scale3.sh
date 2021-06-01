@@ -57,7 +57,7 @@ do
 	fi
 
 # блок имитации аварии на мастере
-	if [[ ${status} = 200 ]]
+	if [[ ${status} = 200 && ${k} < 3 ]]
 	then
     printf "\e[1;31mhost patroni$i down after 30 sec\e[m\n"
     # Variables
@@ -79,7 +79,7 @@ do
     ((k++))
 # блок восстановления роя
 #    echo "k = ${k}, m = ${m}"
-  elif [[ ${k} = 2 || ${m} = 2 ]]
+  elif [[ ${k} = 2 || ${m} = 2 ]] && [[ ${status} = 200 ]]
   then
     printf "\e[42mRecovery cluster start after 60 sec...\e[m\n"
     _start=1
