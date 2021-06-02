@@ -57,7 +57,7 @@ do
 	fi
 
 # блок имитации аварии на мастере
-	if [[ ${status} = 200 && ${k} < 3 ]]
+	if [[ ${status} = 200 && ${k} < 2 ]]
 	then
     printf "\e[1;31mhost patroni$i down after 30 sec\e[m\n"
     # Variables
@@ -92,7 +92,7 @@ do
     printf "\n"
     printf "\e[1;32mRecovery cluster start...\e[m\n"
 #    docker exec -it $(docker ps -q -f name=patroni_haproxy) /bin/bash -c "sed -i 's/.*patroni/# \0/' /usr/local/etc/haproxy/haproxy.cfg"
-    for k in 1 2
+    for k in 0 1
     do
       # формируем случайный номер восстанавливаемого узла
       printf "\e[1;32mhost patroni${arr_deg[${k}]} up...\e[m\n"
